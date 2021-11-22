@@ -17,6 +17,15 @@ const actions = {
         );
         commit('setTodos', response.data);
     },
+    async addTodo({commit}, title){
+        const response = await axios.post('https://jsonplaceholder.typicode.com/todos', {title, completed: false});
+        commit('newTodo', response.data);
+    },
+    async deleteTodo({commit}, id){
+        await axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`);
+
+        commit('removeTodo', id);
+    },
     async increaseCount({commit}){
         commit('increaseCount');
     },
@@ -27,6 +36,8 @@ const actions = {
 
 const mutations = {
     setTodos: (state, todos) => (state.todos = todos),
+    newTodo: (state, todo) => state.todos.unshift(todo),
+    removeTodo: (state, id) => state.todos = state.todos.filter(todo => todo.id !== id),
     increaseCount: (state) => (state.count += 1),
     decreaseCount: (state) => (state.count > 0 ? state.count -= 1 : state.count = 0),
 };

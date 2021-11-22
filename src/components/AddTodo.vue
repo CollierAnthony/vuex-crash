@@ -2,7 +2,7 @@
     <div>
         <h3>Add Todo</h3>
         <div class="add">
-            <form>
+            <form @submit="onSubmit">
                 <input type="text" v-model="title" placeholder="Add Todo...">
                 <input type="submit" value="Submit">
             </form>
@@ -23,12 +23,16 @@
             }
         },
         methods:{
-            ...mapActions(["increaseCount", "decreaseCount"]),
+            ...mapActions(["increaseCount", "decreaseCount", 'addTodo']),
             increase(){
                 this.increaseCount()
             },
             decrease(){
                 this.decreaseCount()
+            },
+            onSubmit(e){
+                e.preventDefault();
+                this.addTodo(this.title);
             }
         },
         computed:{
